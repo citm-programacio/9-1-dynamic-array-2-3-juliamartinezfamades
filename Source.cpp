@@ -1,28 +1,25 @@
-
 #include <iostream>
 using namespace std;
 
 
-void insertInOrder(int*& array, int& size, int newNumber) {
-    
-    int* newArray = new int[size + 1];
+int* ordenar(int* array, int size, int newNumber, int& newSize) {
+    newSize = size + 1; 
+    int* newArray = new int[newSize]; 
     int i = 0, j = 0;
+
     
     while (i < size && array[i] < newNumber) {
         newArray[j++] = array[i++];
     }
 
-    newArray[j++] = newNumber;
     
+    newArray[j++] = newNumber;
+
     while (i < size) {
         newArray[j++] = array[i++];
     }
 
-    delete[] array;
-
-    array = newArray;
-
-    size++;
+    return newArray;
 }
 
 void printArray(int* array, int size) {
@@ -38,7 +35,7 @@ void printArray(int* array, int size) {
 
 int main() {
     int* array = nullptr; 
-    int size = 0;
+    int size = 0; 
     int number;
 
     cout << "Ingresa numeros uno por uno (ingresa -1 para terminar):" << endl;
@@ -48,10 +45,19 @@ int main() {
 
         if (number == -1) break;
 
-        insertInOrder(array, size, number);
+       
+        int newSize;
+        int* newArray = ordenar(array, size, number, newSize);
+
+        
+        delete[] array;
+
+        array = newArray;
+        size = newSize;
 
         printArray(array, size);
     }
+
     delete[] array;
 
     return 0;
